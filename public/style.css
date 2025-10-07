@@ -17,7 +17,7 @@ body {
 }
 
 
-form.login {
+form.login, form.register {
     background-color: #fff;
     padding: 30px;
     border-radius: 8px;
@@ -34,14 +34,16 @@ h1 {
 }
 
 
-form.login label {
+form.login label, form.register label {
     margin-bottom: 5px;
     font-style: bold;
 }
 
 
 form.login input[type="text"],
-form.login input[type="password"] {
+form.login input[type="password"],
+form.register input[type="text"],
+form.register input[type="password"]{
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -50,7 +52,7 @@ form.login input[type="password"] {
 }
 
 
-form.login button {
+form.login button, form.register button {
     padding: 10px;
     background-color: #4b6cb7;
     color: #fff;
@@ -60,6 +62,18 @@ form.login button {
     cursor: pointer;
 }
 
-form.login button:hover {
+form.login button:hover, form.register button:hover {
     background-color: #3a54a0;
+}
+
+
+section.index-container button{
+    padding: 10px;
+    background-color: #4b6cb7;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
 }
