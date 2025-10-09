@@ -29,7 +29,7 @@ const PORT = 5000;
 // Configurações do servidor
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
+eapp.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 
