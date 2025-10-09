@@ -30,8 +30,6 @@ const PORT = 5000;
 
 app.use("/auth", authRouter);
 
-app.use("/client", clientAuthRouter);
-
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.urlencoded({ extended: true }));
