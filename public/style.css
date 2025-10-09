@@ -28,8 +28,8 @@ h1 {
 }
 
 
-form.login,
-form.register {
+form#login,
+form#register {
     background-color: #0d0d0d;
     padding: 40px;
     border-radius: 6px;
@@ -41,18 +41,18 @@ form.register {
 }
 
 
-form.login label,
-form.register label {
+form#login label,
+form#register label {
     margin-bottom: 6px;
     font-weight: bold;
     color: #ff1a1a;
 }
 
 
-form.login input[type="text"],
-form.login input[type="password"],
-form.register input[type="text"],
-form.register input[type="password"] {
+form#login input[type="text"],
+form#login input[type="password"],
+form#register input[type="text"],
+form#register input[type="password"] {
     padding: 10px;
     margin-bottom: 18px;
     background: #111;
@@ -64,14 +64,14 @@ form.register input[type="password"] {
     transition: border 0.2s;
 }
 
-form.login input:focus,
-form.register input:focus {
+form#login input:focus,
+form#register input:focus {
     border-color: #ff1a1a;
 }
 
 
-form.login button,
-form.register button {
+form#login button,
+form#register button {
     padding: 10px;
     background-color: #ff1a1a;
     color: #fff;
@@ -84,8 +84,8 @@ form.register button {
     transition: background-color 0.2s ease;
 }
 
-form.login button:hover,
-form.register button:hover {
+form#login button:hover,
+form#register button:hover {
     background-color: #cc0000;
 }
 
