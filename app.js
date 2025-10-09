@@ -27,13 +27,13 @@ const authRouter = require("./routes/auth");
 const PORT = 5000;
 
 // Configurações do servidor
-app.use(express.json())
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use(express.urlencoded({ extended: true }));
 
 app.use("/", router);
 
