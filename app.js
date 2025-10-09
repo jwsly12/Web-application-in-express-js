@@ -28,9 +28,9 @@ const PORT = 5000;
 
 // Configurações do servidor
 
-app.use("./auth.js", authRouter);
+app.use("/auth", authRouter);
 
-app.use("/client_auth.js", clientAuthRouter);
+app.use("/client_auth", clientAuthRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
