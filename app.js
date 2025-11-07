@@ -20,12 +20,6 @@ projeto/
 
  Criar uma rota pro Dash do admin /admin
  Criar a autenticação de login e registro 
-
-
-Faltam headers importantes de segurança:
-Helmet para headers HTTP seguros
-Limites para payloads JSON/form
-CORS configurado adequadamente
 */
 
 const express = require("express");
@@ -39,9 +33,6 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Se estiver atrás de proxy (Heroku, nginx), habilite:
-// app.set('trust proxy', 1);
 
 app.set("trust proxy", 1); // importante para cookies secure atrás de proxy
 
@@ -95,4 +86,4 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
-});]
+});

@@ -93,7 +93,6 @@ router.post("/login", async (req, res) => {
     // Seta o cookie HttpOnly — cliente não pode ler via JS
     res.cookie(COOKIE_NAME, token, cookieOptions);
 
-    // Para o cliente, retornamos apenas info mínima (role), não o token
     res.json({ message: "Login bem-sucedido", role: user.role });
   } catch (err) {
     console.error("login error:", err);
@@ -127,35 +126,6 @@ router.get("/me", async (req, res) => {
   } catch (err) {
     console.error("me error:", err?.message || err);
     return res.status(401).json({ error: "Token inválido ou expirado" });
-  }
-});
-
-/*
-  Atenção: rota para criar admins deve ser SERIA e protegida.
-  Exemplo seguro: exigir uma chave secreta de criação (ADMIN_CREATION_KEY) ou
-  remover a rota e criar admins apenas via script/migration manual.
-*/
-
-// Exemplo de rota protegida de criação de admin (opcional)
-router.post("/register-admin", async (req, res) => {
-  try {
-    const { username, password, adminKey } = req.body;
-    if (adminKey !== process.env.ADMIN_CREATION_KEY) {
-      return res.status(403).json({ error: "Não autorizado" });
-    }
-    if (!validateCredentials(username, password))
-      return res.status(400).json({ error: "Usuário ou senha inválidos" });
-
-    const [rows] = await pool.query("SELECT * FROM users WHERE user = ?", [username]);
-    if (rows.length > 0) return res.status(400).json({ error: "Usuário já existe" });
-
-    const hash = await bcrypt.hash(password, 12);
-    await pool.query("INSERT INTO users (user, senha, role) VALUES (?, ?, 'admin')", [username, hash]);
-
-    res.json({ message: "Admin criado com sucesso!" });
-  } catch (err) {
-    console.error("register-admin error:", err);
-    res.status(500).json({ error: "Erro no servidor" });
   }
 });
 

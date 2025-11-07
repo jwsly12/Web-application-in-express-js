@@ -39,13 +39,14 @@ router.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/register.html"));
 });
 
-//Rota do usuario comum
+
+// Rotas protegidas
 router.get("/user", requireAuth("user"), (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/user.html"));
+  res.sendFile(path.join(__dirname, "../protected/user.html"));
 });
 
-// Rota do admin
 router.get("/admin", requireAuth("admin"), (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin.html"));
+  res.sendFile(path.join(__dirname, "../protected/admin.html"));
 });
+
 module.exports = router;

@@ -1,32 +1,40 @@
-// Persistência e logout para páginas protegidas
-const token = localStorage.getItem("token");
-const role = localStorage.getItem("role");
-const username = localStorage.getItem("username");
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // Solicita info do usuário — o cookie será enviado automaticamente se o browser tiver o cookie
+    const meRes = await fetch("/auth/me", { credentials: "include" });
 
-if (!token || !username) {
-  window.location.href = "/login.html";
-}
+    if (!meRes.ok) {
+      // Não autenticado => redireciona para login
+      window.location.href = "/login.html";
+      return;
+    }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const nameDisplay = document.getElementById("user-name") || document.getElementById("admin-name");
+    const me = await meRes.json();
+    const username = me.username;
+    const role = me.role;
 
-  if (nameDisplay) {
-    nameDisplay.textContent = `Bem-vindo, ${username}!`;
-  }
+    const nameDisplay = document.getElementById("user-name") || document.getElementById("admin-name");
+    if (nameDisplay) {
+      // usar textContent para evitar XSS
+      nameDisplay.textContent = `Bem-vindo, ${username}!`;
+    }
 
-  // Se for admin e estiver na página errada
-  if (role === "admin" && window.location.pathname.includes("user.html")) {
-    window.location.href = "/admin.html";
-  }
+    // Redirecionamento cliente só para UX — sempre garantir proteção no servidor
+    if (role === "admin" && window.location.pathname.includes("/user")) {
+      window.location.href = "/admin";
+    }
+    if (role === "user" && window.location.pathname.includes("/admin")) {
+      window.location.href = "/user";
+    }
 
-  // Se for user e tentar acessar admin
-  if (role === "user" && window.location.pathname.includes("admin.html")) {
-    window.location.href = "/user.html";
-  }
-
-  // Logout
-  document.getElementById("logout")?.addEventListener("click", () => {
-    localStorage.clear();
+    // Logout: chama endpoint que limpa o cookie no servidor
+    document.getElementById("logout")?.addEventListener("click", async () => {
+      await fetch("/auth/logout", { method: "POST", credentials: "include" });
+      // Depois do logout, redireciona para login
+      window.location.href = "/login.html";
+    });
+  } catch (err) {
+    console.error(err);
     window.location.href = "/login.html";
-  });
+  }
 });

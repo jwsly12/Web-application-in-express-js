@@ -1,4 +1,3 @@
-//login
 const loginForm = document.getElementById("login");
 
 if (loginForm) {
@@ -13,28 +12,22 @@ if (loginForm) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+        credentials: "include", 
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        
-        /*
-        Possível falha de sequestro de sessão caso 
-        exista um xss 
-        Dados sensíveis não podem fica no local storage
-        */
-        
-        sessionStorage.setItem("token", data.token);
-        sessionStorage.setItem("role", data.role);
-        sessionStorage.setItem("username", username); 
-
-        
-        // Redireciona conforme o cargo
-        if (data.role === "admin") {
-          window.location.href = "/admin.html";
+        const meRes = await fetch("/auth/me", { credentials: "include" });
+        if (!meRes.ok) {
+          alert("Erro ao obter dados do usuário após login");
+          return;
+        }
+        const me = await meRes.json();
+        if (me.role === "admin") {
+          window.location.href = "/admin"; // rota protegida no server
         } else {
-          window.location.href = "/user.html";
+          window.location.href = "/user";
         }
       } else {
         alert(data.error || "Erro no login");
@@ -61,6 +54,7 @@ if (registerForm) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -77,4 +71,3 @@ if (registerForm) {
     }
   });
 }
-
